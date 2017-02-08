@@ -64,7 +64,7 @@ bot.dialog('/help', function (session) {
 
 bot.dialog('rootMenu', [
     function (session) {
-        builder.Prompts.choice(session, "Selecione uma opção:", 'Entrar|Mais Informações|Sair');
+        builder.Prompts.choice(session, "Selecione uma opção:", 'Entrar|Mais Informações');
     },
     function (session, results) {
         switch (results.response.index) {
