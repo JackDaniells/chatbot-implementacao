@@ -36,6 +36,12 @@ bot.beginDialogAction('help', '/help', { matches: /^help/i });
 // Bots Dialogs
 //=========================================================
 
+function clearSession(session){
+	session.userData.central = null;
+    session.userData.username = null;
+    session.userData.password = null;
+}
+
 bot.dialog('/', function (session) {
 
     session.send("Ola, eu sou o assistente pessoal do Uros, em que eu posso ajudar?");
@@ -67,6 +73,7 @@ bot.dialog('rootMenu', [
                 break;
             default:
             	session.send('Até mais :)');
+            	clearSession(session);
                 session.endDialog();
                 break;
         }
@@ -121,7 +128,7 @@ bot.dialog('login',[
 
 bot.dialog('DeviceFunctions',[ 
  function (session) {
-        builder.Prompts.choice(session, "Selecione uma das opções ao lado:", 'Ver histórico|Abrir Porta|Adicionar Acesso|Remover Acesso|Sair');
+        builder.Prompts.choice(session, "Selecione uma das opções abaixo:", 'Ver histórico|Abrir Porta|Adicionar Acesso|Remover Acesso|Sair');
     },
     function (session, results) {
         switch (results.response.index) {
@@ -138,6 +145,7 @@ bot.dialog('DeviceFunctions',[
             	session.beginDialog('DelCard');
             	break;
             default:
+            	clearSession(session);
                 session.endDialog();
                 break;
         }
