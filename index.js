@@ -33,11 +33,21 @@ server.post('/api/messages', connector.listen());
 //=========================================================
 
 bot.dialog('/', function (session) {
+
     session.send("Desculpe, não reconheci seu comando, tente uma das opções abaixo");
+    if(!session.userData.central){
+    	session.beginDialog('rootMenu');
+    } else {
+    	session.beginDialog('DeviceFunctions');
+    }
+});
+
+bot.dialog('Get Started', function (session) {
+    session.send("Ola, eu sou o assistente pessoal do Uros, em que eu posso ajudar?");
     session.beginDialog('rootMenu');
 });
 
-bot.dialog('/Ola', function (session) {
+bot.dialog('/Get Started', function (session) {
     session.send("Ola, eu sou o assistente pessoal do Uros, em que eu posso ajudar?");
     session.beginDialog('rootMenu');
 });
@@ -94,6 +104,7 @@ bot.dialog('login',[
 				session.beginDialog('DeviceFunctions');
 		 	}else{
 		 		session.send("Erro ao efetuar login");
+		 		session.beginDialog('rootMenu');
 		 	} 
 
 		});
