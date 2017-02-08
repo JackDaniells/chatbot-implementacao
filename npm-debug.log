@@ -1,0 +1,35 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\ASUS-DEV\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'start' ]
+2 info using npm@3.10.9
+3 info using node@v4.4.4
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle bot@1.0.0~prestart: bot@1.0.0
+6 silly lifecycle bot@1.0.0~prestart: no script for prestart, continuing
+7 info lifecycle bot@1.0.0~start: bot@1.0.0
+8 verbose lifecycle bot@1.0.0~start: unsafe-perm in lifecycle true
+9 verbose lifecycle bot@1.0.0~start: PATH: C:\Users\ASUS-DEV\AppData\Roaming\npm\node_modules\npm\bin\node-gyp-bin;D:\Repositorios\UrOS\bot_uros\node_modules\.bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\nodejs\;C:\Program Files\MongoDB\Server\3.2\bin;C:\Program Files\TortoiseGit\binC:\Program Files (x86)\Android\android-sdk\platform-tools;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Cloud Foundry;C:\Program Files\TortoiseGit\bin;C:\Ruby23-x64\bin;C:\Users\ASUS-DEV\AppData\Roaming\npm;C:\Program Files\MongoDB\Server\3.2\binC:\Program Files (x86)\Android\android-sdk\platform-tools
+10 verbose lifecycle bot@1.0.0~start: CWD: D:\Repositorios\UrOS\bot_uros
+11 silly lifecycle bot@1.0.0~start: Args: [ '/d /s /c', 'node index.js' ]
+12 verbose stack Error: kill ENOSYS
+12 verbose stack     at exports._errnoException (util.js:870:11)
+12 verbose stack     at process.kill (node.js:777:15)
+12 verbose stack     at process.listener (C:\Users\ASUS-DEV\AppData\Roaming\npm\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:86:15)
+12 verbose stack     at emitNone (events.js:72:20)
+12 verbose stack     at process.emit (events.js:166:7)
+12 verbose stack     at processEmit (C:\Users\ASUS-DEV\AppData\Roaming\npm\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at processEmit (C:\Users\ASUS-DEV\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at Signal.wrap.onsignal (node.js:804:46)
+13 verbose cwd D:\Repositorios\UrOS\bot_uros
+14 error Windows_NT 10.0.10586
+15 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\ASUS-DEV\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "start"
+16 error node v4.4.4
+17 error npm  v3.10.9
+18 error code ENOSYS
+19 error errno ENOSYS
+20 error syscall kill
+21 error kill ENOSYS
+22 error If you need help, you may report this error at:
+22 error     <https://github.com/npm/npm/issues>
+23 verbose exit [ 1, true ]
