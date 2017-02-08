@@ -28,11 +28,25 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
+
+bot.beginDialogAction('help', '/help', { matches: /^help/i });
+
+
 //=========================================================
 // Bots Dialogs
 //=========================================================
 
 bot.dialog('/', function (session) {
+
+    session.send("Ola, eu sou o assistente pessoal do Uros, em que eu posso ajudar?");
+    if(!session.userData.central){
+    	session.beginDialog('rootMenu');
+    } else {
+    	session.beginDialog('DeviceFunctions');
+    }
+});
+
+bot.dialog('/help', function (session) {
 
     session.send("Ola, eu sou o assistente pessoal do Uros, em que eu posso ajudar?");
     if(!session.userData.central){
