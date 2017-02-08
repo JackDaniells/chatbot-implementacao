@@ -97,21 +97,30 @@ bot.dialog('about', function(session){
 	                    .images([
 	                        builder.CardImage.create(session, "http://uros.cloud/images/blog/1.jpg")
 	                            .tap(builder.CardAction.showImage(session, "http://uros.cloud/images/blog/1.jpg")),
-	                    ]),
+	                    ])
+	                    .buttons([
+                        		builder.CardAction.openUrl(session, "http://uros.cloud", "Saiba Mais")
+                    	]),
 	                new builder.HeroCard(session)
 	                    .title("Sensor de Presença")
 	                    .subtitle("Sensor de presença sem fio do tipo infravermelho. Pode trabalhar em conjunto com outros sensores, para criar redundâncias ou perfil de eventos.")
 	                    .images([
 	                        builder.CardImage.create(session, "http://uros.cloud/images/blog/3.jpg")
 	                            .tap(builder.CardAction.showImage(session, "http://uros.cloud/images/blog/3.jpg")),
-	                    ]),
+	                    ])
+	                    .buttons([
+                        		builder.CardAction.openUrl(session, "http://uros.cloud", "Saiba Mais")
+                    	]),
 	                new builder.HeroCard(session)
 	                    .title("Leitor de Cartão")
 	                    .subtitle("Leitor de identificação de cartão ou Tags RFID sem fio, com instalação descomplicada, permitindo que o leitor seja posicionado em portas de vidro, colunas, sem uso de fios.")
 	                    .images([
 	                        builder.CardImage.create(session, "http://uros.cloud/images/blog/2.jpg")
 	                            .tap(builder.CardAction.showImage(session, "http://uros.cloud/images/blog/2.jpg"))
-	                    ]),
+	                    ])
+	                    .buttons([
+                        		builder.CardAction.openUrl(session, "http://uros.cloud", "Saiba Mais")
+                    	]),
 	                    new builder.HeroCard(session)
 	                    .title("Fechadura Eletrônica")
 	                    .subtitle("Atuador da fechadura. Trata-se de um relé sem fio, que aciona a fechadura da porta. Pode ser utilizada com uma vasta variedade de fechaduras encontradas no mercado.")
@@ -119,6 +128,9 @@ bot.dialog('about', function(session){
 	                        builder.CardImage.create(session, "http://uros.cloud/images/blog/4.jpg")
 	                            .tap(builder.CardAction.showImage(session, "http://uros.cloud/images/blog/4.jpg"))
 	                    ])
+	                    .buttons([
+                        		builder.CardAction.openUrl(session, "http://uros.cloud", "Saiba Mais")
+                    	])
 	    ]);
         session.send(msg);
        
