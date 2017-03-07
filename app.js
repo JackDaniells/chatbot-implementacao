@@ -206,29 +206,73 @@ bot.dialog('DeviceFunctions',[
 
 
 bot.dialog('OpenDoor', [
-	function(session) {
+	function(session){
+
+		request(url + 'api/devices', function(error, response, body) {
+				if (!error && response.statusCode == 200) { 
+					var dispositivos = JSON.parse(body);
+					var select ='{ ';
+
+					for(var i in dispositivos){
+						
+						select += '"' + dispositivos[i].name +'":{ "id": "' + dispositivos[i]._id +'"},';
+					}
+					select = select.substr(0, select.length -1);
+					select +='}';
+					select = JSON.parse(select);
+					session.userData.dispositivos = select;
+
+
+
+					builder.Prompts.choice(session, 'Selecione o Dispositivo para acessar o histórico', select);
+
+				} else {
+					session.send('Algo deu errado');
+					session.beginDialog('DeviceFunctions');
+
+				}
+
+			});
+	},
+	function(session, results) {
+		for(var i in session.userData.dispositivos){
+			console.log(i);
+			if(i == results.response.entity){
+				session.userData.deviceSelected = session.userData.dispositivos[i].id;
+			}
+		}
+		console.log(session.userData.deviceSelected);
+		
 		builder.Prompts.text(session, 'Digite a senha para abertura da porta');
 
 	},
 
 	function(session, results){
 
-			
-		request(url + 'api/centrals/openDoor/'+session.userData.central,{
+
+		var doorPass = results.response 
+		console.log(doorPass);
+		request(url + 'api/devices/accessrequest/'+session.userData.deviceSelected,{
 			method: 'POST',
 			form:{
-				password: results.response
+				doorPass: doorPass
 			}
 		}, function(error, response, body) {
 		 	if (!error && response.statusCode == 200) { 
 		 		console.log(body);
-		 		session.send('Porta Aberta');
+		 		if(JSON.parse(body).access_permition){
+		 			session.send('Porta Aberta');
+		 		} else {
+		 			session.send('Porta não foi aberta, verifique sua senha');
+		 		}
 		 		session.beginDialog('DeviceFunctions');
 		 	}else{
 		 		console.log('deu pau');
-		 		session.endDialog('Porta Não foi aberta');
+		 		session.endDialog('Erro ao se comunicar com o servidor');
 		 	} 
 		});
+
+		session.userData.deviceSelected = null;
 
 	}
 ]);
@@ -367,6 +411,8 @@ bot.dialog('AddCard',[
 			}
 		});
 
+		session.userData.deviceSelected = null;
+
 	}
 ]);
 
@@ -450,6 +496,8 @@ bot.dialog('DelCard',[
 					session.beginDialog('DeviceFunctions');
 				}
 			});
+
+			session.userData.deviceSelected = null;
 		}
 	}
 
