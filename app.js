@@ -1,7 +1,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var request = require('request');
-var url = 'http://portal.uros.cloud/';
+var url = 'http://169.57.150.4:3000/';
 
 var FileCookieStore = require('tough-cookie-filestore');
 // NOTE - currently the 'cookies.json' file must already exist!
@@ -155,7 +155,7 @@ bot.dialog('login',[
 		request(url + 'api/auth/signin',{
 			method: 'POST',
 			form: {
-				username: session.userData.username,
+				usernameOrEmail: session.userData.username,
 				password: session.userData.password
 			},
 		}, function(error, response, body) {
@@ -185,7 +185,7 @@ bot.dialog('DeviceFunctions',[
     function (session, results) {
         switch (results.response.index) {
             case 0:
-                session.beginDialog('PirHistory');
+                session.beginDialog('History');
                 break;
             case 1:	
             	session.beginDialog('OpenDoor');
@@ -233,17 +233,17 @@ bot.dialog('OpenDoor', [
 	}
 ]);
 
-bot.dialog('PirHistory',[
+bot.dialog('History',[
  	function(session){
 
-		request(url + 'api/dispositivos', function(error, response, body) {
+		request(url + 'api/devices', function(error, response, body) {
 				if (!error && response.statusCode == 200) { 
 					var dispositivos = JSON.parse(body);
 					var select ='{ ';
 
 					for(var i in dispositivos){
 						
-						select += '"' + dispositivos[i].nome +'":{ "id": "' + dispositivos[i]._id +'"},';
+						select += '"' + dispositivos[i].name +'":{ "id": "' + dispositivos[i]._id +'"},';
 					}
 					select = select.substr(0, select.length -1);
 					select +='}';
@@ -270,16 +270,14 @@ bot.dialog('PirHistory',[
 			if(i == results.response.entity){
 				console.log(session.userData.dispositivos[i]);
 
-				request(url + 'api/dispositivos/' + session.userData.dispositivos[i].id + '/historico', function(error, response, body) {
+				request(url + 'api/devices/' + session.userData.dispositivos[i].id , function(error, response, body) {
 					if (!error && response.statusCode == 200) { 
-						var history = body.substr(1, body.length-2);
-						console.log(history);
-						history = history.split(',');
+						var history =JSON.parse(body).history;
 						var count = 0;
 
 						for(var i = 0; i<history.length; i++){
 							if(history[i]!= 'null'){
-								session.send(history[i]);
+								session.send(history[i].message + ' ' + history[i].value);
 								count++;
 							}
 						}
@@ -299,8 +297,50 @@ bot.dialog('PirHistory',[
 	}
 ]);
 
+
+/*************************************************************************
+********************************Card**************************************
+*************************************************************************/
+
+
 bot.dialog('AddCard',[
 	function(session){
+
+		request(url + 'api/devices', function(error, response, body) {
+				if (!error && response.statusCode == 200) { 
+					var dispositivos = JSON.parse(body);
+					var select ='{ ';
+
+					for(var i in dispositivos){
+						
+						select += '"' + dispositivos[i].name +'":{ "id": "' + dispositivos[i]._id +'"},';
+					}
+					select = select.substr(0, select.length -1);
+					select +='}';
+					select = JSON.parse(select);
+					session.userData.dispositivos = select;
+
+
+
+					builder.Prompts.choice(session, 'Selecione o Dispositivo para adicionar o cartão', select);
+
+				} else {
+					session.send('Algo deu errado');
+					session.beginDialog('DeviceFunctions');
+
+				}
+
+			});
+	},
+	function(session, results){
+		console.log(results.response.entity);
+
+		for(var i in session.userData.dispositivos){
+			console.log(i);
+			if(i == results.response.entity){
+				session.userData.deviceSelected = session.userData.dispositivos[i].id;
+			}
+		}
 		builder.Prompts.text(session, 'Digite o nome do dono do cartão');
 	},
 	function(session, results){
@@ -310,11 +350,11 @@ bot.dialog('AddCard',[
 	function(session, results){
 		session.userData.cardId = results.response;
 
-		request(url + 'api/centrals/AddCard/' + session.userData.central, {
+		request(url + 'api/devices/card/' + session.userData.deviceSelected, {
 			method:'POST',
 			form:{
 				name: session.userData.cardName,
-				id_card: session.userData.cardId
+				card: session.userData.cardId
 			}
 		}, function(error, response, body) {
 			if (!error && response.statusCode == 200) { 
@@ -333,9 +373,43 @@ bot.dialog('AddCard',[
 
 bot.dialog('DelCard',[
 	function(session){
-		request(url + 'api/centrals/cardlist/' + session.userData.central, function(error, response, body) {
+
+		request(url + 'api/devices', function(error, response, body) {
+				if (!error && response.statusCode == 200) { 
+					var dispositivos = JSON.parse(body);
+					var select ='{ ';
+
+					for(var i in dispositivos){
+						
+						select += '"' + dispositivos[i].name +'":{ "id": "' + dispositivos[i]._id +'"},';
+					}
+					select = select.substr(0, select.length -1);
+					select +='}';
+					select = JSON.parse(select);
+					session.userData.dispositivos = select;
+
+
+
+					builder.Prompts.choice(session, 'Selecione o Dispositivo para remover o cartão', select);
+
+				} else {
+					session.send('Algo deu errado');
+					session.beginDialog('DeviceFunctions');
+
+				}
+
+			});
+	},
+	function(session, results){
+		for(var i in session.userData.dispositivos){
+			if(i == results.response.entity){
+				session.userData.deviceSelected = session.userData.dispositivos[i].id;
+			}
+		}
+		request(url + 'api/devices/card/' + session.userData.deviceSelected, function(error, response, body) {
 			if (!error && response.statusCode == 200) { 
 				var cards = JSON.parse(body);
+				console.log(cards);
 				var select = '';
 				for(var i in cards.validCards){
 					select += cards.validCards[i].name + '|';
@@ -359,8 +433,8 @@ bot.dialog('DelCard',[
 		if(response == 'Sair'){
 			session.beginDialog('DeviceFunctions');
 		}else {
-			request(url + 'api/centrals/delcard/' + session.userData.central, {
-				method: 'POST',
+			request(url + 'api/devices/card/' + session.userData.deviceSelected, {
+				method: 'PUT',
 				form:{
 					name: response
 				}
