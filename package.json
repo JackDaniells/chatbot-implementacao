@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Daniel Kock",
   "license": "ISC",
@@ -15,10 +15,7 @@
     "redis": "^2.6.5",
     "request": "^2.79.0",
     "requestify": "^0.2.5",
-    "restify": "^4.3.0",
+    "restify": "^5.0.0",
     "tough-cookie-filestore": "0.0.1"
-  },
-   "scripts": {
-      "start": "node app.js"
-   }
+  }
 }
