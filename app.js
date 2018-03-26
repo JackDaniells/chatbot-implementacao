@@ -1,7 +1,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var request = require('request');
-var url = 'http://169.57.150.4:3000/';
+var url = 'minha.api.legal.com.br';
 
 var FileCookieStore = require('tough-cookie-filestore');
 // NOTE - currently the 'cookies.json' file must already exist!
@@ -22,8 +22,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 var connector = new builder.ChatConnector({
     /*appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD*/
-    appId: '4bacbab9-c056-4979-b5e9-264423dbc522',
-    appPassword: '7kLJwMTJ4VizNSTtPCe9C0o'
+    appId: '',
+    appPassword: ''
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
