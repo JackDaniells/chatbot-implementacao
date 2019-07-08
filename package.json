@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Daniel Kock",
   "license": "ISC",
@@ -16,6 +18,8 @@
     "request": "^2.79.0",
     "requestify": "^0.2.5",
     "restify": "^5.0.0",
-    "tough-cookie-filestore": "0.0.1"
-  }
+    "tough-cookie-filestore": "0.0.1",
+    "snyk": "^1.192.3"
+  },
+  "snyk": true
 }
