@@ -9,7 +9,7 @@
   "author": "Daniel Kock",
   "license": "ISC",
   "dependencies": {
-    "botbuilder": "^3.5.4",
+    "botbuilder": "^4.0.6",
     "cached-request": "^1.1.0",
     "http": "0.0.0",
     "redis": "^2.6.5",
