@@ -9,13 +9,13 @@
   "author": "Daniel Kock",
   "license": "ISC",
   "dependencies": {
-    "botbuilder": "^3.5.4",
+    "botbuilder": "^4.0.6",
     "cached-request": "^1.1.0",
     "http": "0.0.0",
     "redis": "^2.6.5",
     "request": "^2.79.0",
     "requestify": "^0.2.5",
-    "restify": "^5.0.0",
+    "restify": "^9.0.0",
     "tough-cookie-filestore": "0.0.1"
   }
 }
